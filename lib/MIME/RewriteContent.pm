@@ -21,7 +21,7 @@ sub rewrite_content {
 
   if ($changed) {
     my $io = $entity->open('w');
-    $io->print(Encode::encode($charset, $_));
+    $io->print(Encode::encode($charset, $body));
   }
 }
 
