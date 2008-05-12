@@ -107,6 +107,8 @@ containing the entire body of the part, decoded based on the part's declared
 charset (and falling back to C<ISO-8859-1>).  The callback may alter C<$_>,
 which will be re-encoded and put back into place in the message body.
 
+The callback is passed the part 
+
 =cut
 
 sub rewrite_parts {
@@ -118,13 +120,11 @@ sub rewrite_parts {
     my $charset = $part->head->mime_attr('content-type.charset')
                || 'ISO-8859-1';
 
-    my $body = $part->bodyhandle->as_string;
-    local $_ = Encode::decode($charset, $body);
-    $code->();
-    $body = $_;
+    local $_ = Encode::decode($charset, $part->bodyhandle->as_string);
+    $code->($part);
 
     my $io = $part->open('w');
-    print $io Encode::encode($charset, $body);
+    print $io Encode::encode($charset, $_);
   });
 }
 
