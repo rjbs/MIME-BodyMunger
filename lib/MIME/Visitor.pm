@@ -103,12 +103,11 @@ sub walk_text_leaves {
   MIME::Visitor->rewrite_parts($root, sub { ... });
 
 This method walks the text leaves of the MIME message, rewriting the content of
-the parts.  For each text leaf, C<$_> is set to a decoded text string
-containing the entire body of the part, decoded based on the part's declared
-charset (and falling back to C<ISO-8859-1>).  The callback may alter C<$_>,
-which will be re-encoded and put back into place in the message body.
+the parts.  For each text leaf, the callback is invoked like this:
 
-The callback is passed the part 
+  $code->(\$content, $part);
+
+For more information, see L<MIME::ContentRewriter/rewrite_content>.
 
 =cut
 
