@@ -82,7 +82,7 @@ sub rewrite_content {
 
   MIME::BodyMunger->rewrite_lines($message, sub { ... });
 
-This method behaves like C<rewrite_content), but the callback is invoked once
+This method behaves like C<rewrite_content>, but the callback is invoked once
 per line, like this:
 
   local $_ = $line;
