@@ -10,15 +10,18 @@ use Test::More tests => 6;
 my $parser = MIME::Parser->new;
 $parser->output_under(tempdir(CLEANUP => 1));
 
+my $reverser = sub {
+  my ($line_ref) = @_;
+  chomp;
+  $_ = reverse . "\n";
+};
+
 {
   my $entity = $parser->parse_open('eg/boring.msg');
 
   my $orig_line = $entity->body->[0];
 
-  MIME::Visitor->rewrite_lines(
-    $entity,
-    sub { chomp; $_ = reverse . "\n"; },
-  );
+  MIME::Visitor->rewrite_all_lines($entity, $reverser);
 
   my $new_line = $entity->body->[0];
 
@@ -41,10 +44,7 @@ $parser->output_under(tempdir(CLEANUP => 1));
 
   my @orig_lines = map { $_->body->[0] } $entity->parts;
 
-  MIME::Visitor->rewrite_lines(
-    $entity,
-    sub { chomp; $_ = reverse . "\n"; },
-  );
+  MIME::Visitor->rewrite_all_lines($entity, $reverser);
 
   my @new_lines = map { $_->body->[0] } $entity->parts;
 

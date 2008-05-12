@@ -5,6 +5,7 @@ package MIME::Visitor;
 our $VERSION = '0.001';
 
 use Encode;
+use MIME::RewriteContent;
 
 =head1 NAME
 
@@ -19,7 +20,7 @@ version 0.001
   # This will reverse all lines in each text part, taking care of all encoding
   # for you.
 
-  MIME::Visitor->rewrite_lines(
+  MIME::Visitor->rewrite_all_lines(
     $mime_entity,
     sub { chomp; $_ = reverse . "\n"; },
   );
@@ -116,46 +117,25 @@ sub rewrite_parts {
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-
-    my $charset = $part->head->mime_attr('content-type.charset')
-               || 'ISO-8859-1';
-
-    local $_ = Encode::decode($charset, $part->bodyhandle->as_string);
-    $code->($part);
-
-    my $io = $part->open('w');
-    $io->print(Encode::encode($charset, $_));
+    MIME::RewriteContent->rewrite_content($part, $code);
   });
 }
 
-=head2 rewrite_lines
+=head2 rewrite_all_lines
 
-  MIME::Visitor->rewrite_lines($root, sub { ... });
+  MIME::Visitor->rewrite_all_lines($root, sub { ... });
 
 This method behaves like C<rewrite_parts>, but the callback is called for each
 line of each relevant part, rather than for the part's body as a whole.
 
 =cut
 
-sub rewrite_lines {
+sub rewrite_all_lines {
   my ($self, $root, $code) = @_;
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-
-    my $charset = $part->head->mime_attr('content-type.charset')
-               || 'ISO-8859-1';
-
-    my $lines = $part->body;
-
-    for my $line (@$lines) {
-      local $_ = Encode::decode($charset, $line);
-      $code->($part);
-      $line = $_;
-    };
-
-    my $io = $part->open('w');
-    $io->print(Encode::encode($charset, $_)) for @$lines;
+    MIME::RewriteContent->rewrite_lines($part, $code);
   });
 }
 
