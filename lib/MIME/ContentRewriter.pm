@@ -1,13 +1,17 @@
 use strict;
 use warnings;
-package MIME::RewriteContent;
+package MIME::ContentRewriter;
 
+use Carp ();
 use Encode;
 use MIME::Entity;
 use Variable::Magic ();
 
 sub rewrite_content {
   my ($self, $entity, $code) = @_;
+
+  Carp::confess "rewrite_content called on non-text part"
+    unless $entity->effective_type =~ qr{\Atext/(?:html|plain)(?:$|;)}i;
 
   my $charset = $entity->head->mime_attr('content-type.charset')
              || 'ISO-8859-1';
@@ -27,6 +31,9 @@ sub rewrite_content {
 
 sub rewrite_lines {
   my ($self, $entity, $code) = @_;
+
+  Carp::confess "rewrite_lines called on non-text part"
+    unless $entity->effective_type =~ qr{\Atext/(?:html|plain)(?:$|;)}i;
 
   my $charset = $entity->head->mime_attr('content-type.charset')
              || 'ISO-8859-1';

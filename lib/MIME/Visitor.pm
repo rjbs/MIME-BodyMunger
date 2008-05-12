@@ -5,7 +5,7 @@ package MIME::Visitor;
 our $VERSION = '0.001';
 
 use Encode;
-use MIME::RewriteContent;
+use MIME::ContentRewriter;
 
 =head1 NAME
 
@@ -117,7 +117,7 @@ sub rewrite_parts {
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-    MIME::RewriteContent->rewrite_content($part, $code);
+    MIME::ContentRewriter->rewrite_content($part, $code);
   });
 }
 
@@ -135,7 +135,7 @@ sub rewrite_all_lines {
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-    MIME::RewriteContent->rewrite_lines($part, $code);
+    MIME::ContentRewriter->rewrite_lines($part, $code);
   });
 }
 
