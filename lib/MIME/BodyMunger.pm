@@ -1,15 +1,14 @@
 use strict;
 use warnings;
-package MIME::ContentRewriter;
+package MIME::BodyMunger;
 
 use Carp ();
 use Encode;
-use MIME::Entity;
 use Variable::Magic ();
 
 =head1 NAME
 
-MIME::ContentRewriter - rewrite the content of text parts, minding charset
+MIME::BodyMunger - rewrite the content of text parts, minding charset
 
 =head1 VERSION
 
@@ -17,7 +16,7 @@ version 0.001
 
 =head1 SYNOPSIS
 
-  MIME::ContentRewriter->rewrite_content(
+  MIME::BodyMunger->rewrite_content(
     $mime_entity,
     sub {
       my ($body_ref) = @_;
@@ -27,7 +26,7 @@ version 0.001
 
 =head1 DESCRIPTION
 
-MIME::ContentRewriter provides methods for rewriting text parts.  These methods
+MIME::BodyMunger provides methods for rewriting text parts.  These methods
 take care of character sets for you so that you can treat everything like text
 instead of worrying about content transfer encoding or character set encoding.
 
@@ -38,7 +37,7 @@ added in the future.
 
 =head2 rewrite_content
 
-  MIME::ContentRewriter->rewrite_content($message, sub { ... });
+  MIME::BodyMunger->rewrite_content($message, sub { ... });
 
 This method uses the given callback to rewrite the content (body) of the
 message.  It decodes the content (using Content-Transfer-Encoding and the
@@ -79,7 +78,7 @@ sub rewrite_content {
 
 =head2 rewrite_lines
 
-  MIME::ContentRewriter->rewrite_lines($message, sub { ... });
+  MIME::BodyMunger->rewrite_lines($message, sub { ... });
 
 This method behaves like C<rewrite_content), but the callback is invoked once
 per line, like this:

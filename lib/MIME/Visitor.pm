@@ -5,7 +5,7 @@ package MIME::Visitor;
 our $VERSION = '0.001';
 
 use Encode;
-use MIME::ContentRewriter;
+use MIME::BodyMunger;
 
 =head1 NAME
 
@@ -107,7 +107,7 @@ the parts.  For each text leaf, the callback is invoked like this:
 
   $code->(\$content, $part);
 
-For more information, see L<MIME::ContentRewriter/rewrite_content>.
+For more information, see L<MIME::BodyMunger/rewrite_content>.
 
 =cut
 
@@ -116,7 +116,7 @@ sub rewrite_parts {
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-    MIME::ContentRewriter->rewrite_content($part, $code);
+    MIME::BodyMunger->rewrite_content($part, $code);
   });
 }
 
@@ -134,7 +134,7 @@ sub rewrite_all_lines {
 
   $self->walk_text_leaves($root, sub {
     my ($part) = @_;
-    MIME::ContentRewriter->rewrite_lines($part, $code);
+    MIME::BodyMunger->rewrite_lines($part, $code);
   });
 }
 

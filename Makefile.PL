@@ -2,6 +2,7 @@ use inc::Module::Install;
 all_from 'lib/MIME/Visitor.pm';
 
 requires 'Encode';
+requires 'Variable::Magic';
 
 test_requires 'File::Temp';
 test_requires 'MIME::Entity';
