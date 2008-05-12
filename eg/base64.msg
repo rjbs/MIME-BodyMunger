@@ -2,7 +2,7 @@ From: "X. Ample" <example@example.com>
 To: example@example.org
 Subject: this is some message
 MIME-Version: 1.0
-Content-type: application/octet-stream
+Content-type: text/html; charset=us-ascii
 Content-transfer-encoding: base64
 
 PGh0bWw+CiAgPGhlYWQ+CiAgPC9oZWFkPgogIDxib2R5PgogICAgPHA+VGhpcyBpcyB0aGUg
