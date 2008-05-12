@@ -64,7 +64,7 @@ my $reverser = sub {
 
   my @orig_lines = $entity->bodyhandle->as_lines;
   
-  MIME::Visitor->rewrite_lines(
+  MIME::Visitor->rewrite_all_lines(
     $entity,
     sub { chomp; $_ = reverse . "\n"; },
   );

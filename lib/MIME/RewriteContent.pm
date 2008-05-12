@@ -34,9 +34,9 @@ sub rewrite_lines {
   my $changed = 0;
   my $got_set = Variable::Magic::wizard(set => sub { $changed = 1 });
 
-  my $lines = $entity->body;
+  my @lines = $entity->bodyhandle->as_lines;
 
-  for my $line (@$lines) {
+  for my $line (@lines) {
     local $_ = Encode::decode($charset, $line);
     Variable::Magic::cast($_, $got_set);
     $code->(\$_, $entity);
@@ -46,7 +46,7 @@ sub rewrite_lines {
 
   if ($changed) {
     my $io = $entity->open('w');
-    $io->print(Encode::encode($charset, $_)) for @$lines;
+    $io->print(Encode::encode($charset, $_)) for @lines;
   }
 }
 
