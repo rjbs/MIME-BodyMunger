@@ -2,6 +2,8 @@ use strict;
 use warnings;
 package MIME::BodyMunger;
 
+our $VERSION = '0.001';
+
 use Carp ();
 use Encode;
 use Variable::Magic ();

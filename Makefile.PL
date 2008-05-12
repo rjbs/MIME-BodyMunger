@@ -1,5 +1,5 @@
 use inc::Module::Install;
-all_from 'lib/MIME/Visitor.pm';
+all_from 'lib/MIME/BodyMunger.pm';
 
 requires 'Encode';
 requires 'Variable::Magic';
