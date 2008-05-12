@@ -124,7 +124,7 @@ sub rewrite_parts {
     $code->($part);
 
     my $io = $part->open('w');
-    print $io Encode::encode($charset, $_);
+    $io->print(Encode::encode($charset, $_));
   });
 }
 
@@ -150,12 +150,12 @@ sub rewrite_lines {
 
     for my $line (@$lines) {
       local $_ = Encode::decode($charset, $line);
-      $code->();
+      $code->($part);
       $line = $_;
     };
 
     my $io = $part->open('w');
-    print $io Encode::encode($charset, $_) for @$lines;
+    $io->print(Encode::encode($charset, $_)) for @$lines;
   });
 }
 
