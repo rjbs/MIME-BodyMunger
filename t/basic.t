@@ -5,7 +5,7 @@ use File::Temp qw(tempdir);
 use MIME::Visitor;
 use MIME::Parser;
 
-use Test::More tests => 6;
+use Test::More tests => 13;
 
 my $parser = MIME::Parser->new;
 $parser->output_under(tempdir(CLEANUP => 1));
@@ -57,4 +57,24 @@ my $reverser = sub {
   my $decoded_new  = decode('utf-8', $new_lines[0]);
 
   is($decoded_new, reverse($decoded_orig), "...but it is character reversed");
+}
+
+{
+  my $entity = $parser->parse_open('eg/base64.msg');
+
+  my @orig_lines = $entity->bodyhandle->as_lines;
+  
+  MIME::Visitor->rewrite_lines(
+    $entity,
+    sub { chomp; $_ = reverse . "\n"; },
+  );
+
+  my @new_lines = $entity->bodyhandle->as_lines;
+
+  chomp(@orig_lines, @new_lines);
+
+  for( 0..@orig_lines -1 ) {
+    is( $new_lines[ $_ ], reverse( $orig_lines[ $_ ] ), 'reversed' );
+  }
+
 }
