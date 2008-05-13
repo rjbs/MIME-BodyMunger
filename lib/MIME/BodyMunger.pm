@@ -129,6 +129,8 @@ Ricardo SIGNES, C<< <rjbs@cpan.org> >>
 Thanks to Pobox.com and Listbox.com, who sponsored the development of this
 module.
 
+Thanks to Brian Cassidy for writing some tests for the initial release.
+
 =head1 BUGS
 
 Please report any bugs or feature requests through the web interface at
