@@ -5,7 +5,7 @@ use File::Temp qw(tempdir);
 use MIME::Visitor;
 use MIME::Parser;
 
-use Test::More tests => 13;
+use Test::More tests => 16;
 
 my $parser = MIME::Parser->new;
 $parser->output_under(tempdir(CLEANUP => 1));

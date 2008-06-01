@@ -67,16 +67,22 @@ sub rewrite_content {
 
   $charset = 'MacRoman' if lc $charset eq 'macintosh';
 
+  Carp::carp(qq{rewriting message in unknown charset "$charset"})
+    unless my $known_charset = Encode::find_encoding($charset);
+
   my $changed = 0;
   my $got_set = Variable::Magic::wizard(set => sub { $changed = 1 });
 
-  my $body = Encode::decode($charset, $entity->bodyhandle->as_string);
+  my $body = $known_charset
+           ? Encode::decode($charset, $entity->bodyhandle->as_string)
+           : $entity->bodyhandle->as_string;
+
   Variable::Magic::cast($body, $got_set);
   $code->(\$body, $entity);
 
   if ($changed) {
     my $io = $entity->open('w');
-    $io->print(Encode::encode($charset, $body));
+    $io->print($known_charset ? Encode::encode($charset, $body) : $body);
   }
 }
 
@@ -105,13 +111,16 @@ sub rewrite_lines {
 
   $charset = 'MacRoman' if lc $charset eq 'macintosh';
 
+  Carp::carp(qq{rewriting message in unknown charset "$charset"})
+    unless my $known_charset = Encode::find_encoding($charset);
+
   my $changed = 0;
   my $got_set = Variable::Magic::wizard(set => sub { $changed = 1 });
 
   my @lines = $entity->bodyhandle->as_lines;
 
   for my $line (@lines) {
-    local $_ = Encode::decode($charset, $line);
+    local $_ = $known_charset ? Encode::decode($charset, $line) : $line;
     Variable::Magic::cast($_, $got_set);
     $code->(\$_, $entity);
     Variable::Magic::dispell($_, $got_set);
@@ -120,7 +129,7 @@ sub rewrite_lines {
 
   if ($changed) {
     my $io = $entity->open('w');
-    $io->print(Encode::encode($charset, $_)) for @lines;
+    $io->print($known_charset ? Encode::encode($charset, $_) : $_) for @lines;
   }
 }
 
