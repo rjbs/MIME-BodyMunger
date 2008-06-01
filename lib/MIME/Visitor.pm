@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package MIME::Visitor;
 
-our $VERSION = '0.001';
+our $VERSION = '0.002';
 
 use Encode;
 use MIME::BodyMunger;
@@ -13,7 +13,7 @@ MIME::Visitor - walk through MIME parts and do stuff (like rewrite)
 
 =head1 VERSION
 
-version 0.001
+version 0.002
 
 =head1 SYNOPSIS
 
