@@ -40,6 +40,35 @@ my $reverser = sub {
 }
 
 {
+  my $entity = $parser->parse_open('eg/macroman.msg');
+
+  my $orig_line = $entity->body->[0];
+
+  MIME::Visitor->rewrite_all_lines($entity, $reverser);
+
+  my $new_line = $entity->body->[0];
+
+  chomp($orig_line, $new_line);
+
+  isnt($new_line, $orig_line,          "the first line has been rewritten");
+
+  # Of course, /this/ one is bytewise reversed, because MacRoman is one-byte
+  # chars.
+  #isnt($new_line, reverse($orig_line), "...and it isn't bytewise reversed");
+
+  my $decoded_orig = decode('MacRoman', $orig_line);
+  my $decoded_new  = decode('MacRoman', $new_line);
+
+  is(
+    ord(substr($orig_line, 62, 1)),
+    0xD8,
+    "got the right y-dots char for MacRoman",
+  );
+
+  is($decoded_new, reverse($decoded_orig), "...and it is character reversed");
+}
+
+{
   my $entity = $parser->parse_open('eg/multi.msg');
 
   my @orig_lines = map { $_->body->[0] } $entity->parts;

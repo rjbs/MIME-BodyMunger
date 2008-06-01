@@ -65,6 +65,8 @@ sub rewrite_content {
   my $charset = $entity->head->mime_attr('content-type.charset')
              || 'ISO-8859-1';
 
+  $charset = 'MacRoman' if lc $charset eq 'macintosh';
+
   my $changed = 0;
   my $got_set = Variable::Magic::wizard(set => sub { $changed = 1 });
 
@@ -100,6 +102,8 @@ sub rewrite_lines {
 
   my $charset = $entity->head->mime_attr('content-type.charset')
              || 'ISO-8859-1';
+
+  $charset = 'MacRoman' if lc $charset eq 'macintosh';
 
   my $changed = 0;
   my $got_set = Variable::Magic::wizard(set => sub { $changed = 1 });
