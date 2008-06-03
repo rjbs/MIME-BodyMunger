@@ -2,7 +2,7 @@ use strict;
 use warnings;
 package MIME::Visitor;
 
-our $VERSION = '0.002';
+our $VERSION = '0.003';
 
 use Encode;
 use MIME::BodyMunger;
@@ -13,7 +13,7 @@ MIME::Visitor - walk through MIME parts and do stuff (like rewrite)
 
 =head1 VERSION
 
-version 0.002
+version 0.003
 
 =head1 SYNOPSIS
 
@@ -55,7 +55,7 @@ sub walk_parts {
 
   $code->($root);
   for my $part ($root->parts) {
-    $code->($part);
+    $self->walk_parts($part, $code);
   }
 }
 
