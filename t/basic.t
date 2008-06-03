@@ -5,7 +5,7 @@ use File::Temp qw(tempdir);
 use MIME::Visitor;
 use MIME::Parser;
 
-use Test::More tests => 16;
+use Test::More tests => 18;
 
 my $parser = MIME::Parser->new;
 $parser->output_under(tempdir(CLEANUP => 1));
@@ -105,5 +105,16 @@ my $reverser = sub {
   for( 0..@orig_lines -1 ) {
     is( $new_lines[ $_ ], reverse( $orig_lines[ $_ ] ), 'reversed' );
   }
+}
 
+{
+  my $entity = $parser->parse_open('eg/nested.msg');
+  
+  MIME::Visitor->rewrite_all_lines(
+    $entity,
+    sub { chomp; $_ = reverse . "\n"; },
+  );
+
+  like($entity->as_string, qr/^\.amanap lanac a nalp a nam A$/m, 'nested pt 2');
+  like($entity->as_string, qr/^\?\.\.i saw a was I$/m, 'nested pt 1');
 }

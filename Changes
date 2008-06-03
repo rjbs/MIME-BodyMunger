@@ -1,5 +1,9 @@
 Revision history for MIME-BodyMunger
 
+0.003     2008-06-03
+          actually recurse into nested multipart messages
+          sheesh!
+
 0.002     2008-06-01
           hack around Encode.pm to declare that charset=macintosh is MacRoman
           rewrite unknown charsets without transcoding
