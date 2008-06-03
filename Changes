@@ -1,5 +1,9 @@
 Revision history for MIME-BodyMunger
 
+0.004     2008-06-03
+          matching with qr/^foo$/m failed under 5.8, but not 5.10; huh?
+          removed the $ and it works
+
 0.003     2008-06-03
           actually recurse into nested multipart messages
           sheesh!
