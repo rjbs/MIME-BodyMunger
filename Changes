@@ -1,5 +1,10 @@
 Revision history for MIME-BodyMunger
 
+{{$NEXT}}
+          add a test for non-rewriting of non-text messages
+
+          repackage
+
 0.004     2008-06-03
           matching with qr/^foo$/m failed under 5.8, but not 5.10; huh?
           removed the $ and it works
