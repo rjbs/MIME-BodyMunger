@@ -1,19 +1,10 @@
 use strict;
 use warnings;
 package MIME::Visitor;
-
-our $VERSION = '0.004';
+# ABSTRACT: walk through MIME parts and do stuff (like rewrite)
 
 use Encode;
 use MIME::BodyMunger;
-
-=head1 NAME
-
-MIME::Visitor - walk through MIME parts and do stuff (like rewrite)
-
-=head1 VERSION
-
-version 0.004
 
 =head1 SYNOPSIS
 
@@ -39,9 +30,7 @@ transfer encoding or character set encoding.
 At present, only MIME::Entity messages can be handled.  Other types will be
 added in the future.
 
-=head1 METHODS
-
-=head2 walk_parts
+=method walk_parts
 
   MIME::Visitor->walk_parts($root, sub { ... });
 
@@ -59,7 +48,7 @@ sub walk_parts {
   }
 }
 
-=head2 walk_leaves
+=method walk_leaves
 
   MIME::Visitor->walk_leaves($root, sub { ... });
 
@@ -81,7 +70,7 @@ sub walk_leaves {
   );
 }
 
-=head2 walk_text_leaves
+=method walk_text_leaves
 
   MIME::Visitor->walk_text_leaves($root, sub { ... });
 
@@ -98,7 +87,7 @@ sub walk_text_leaves {
   });
 }
 
-=head2 rewrite_parts
+=method rewrite_parts
 
   MIME::Visitor->rewrite_parts($root, sub { ... });
 
@@ -120,7 +109,7 @@ sub rewrite_parts {
   });
 }
 
-=head2 rewrite_all_lines
+=method rewrite_all_lines
 
   MIME::Visitor->rewrite_all_lines($root, sub { ... });
 
@@ -138,25 +127,10 @@ sub rewrite_all_lines {
   });
 }
 
-=head1 AUTHOR
-
-Ricardo SIGNES, C<< <rjbs@cpan.org> >>
-
 =head1 THANKS
 
 Thanks to Pobox.com and Listbox.com, who sponsored the development of this
 module.
-
-=head1 BUGS
-
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>. I will be notified, and then you'll automatically be
-notified of progress on your bug as I make changes.
-
-=head1 COPYRIGHT
-
-Copyright 2008, Ricardo SIGNES.  This program is free software;  you can
-redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut
 

@@ -1,20 +1,11 @@
 use strict;
 use warnings;
 package MIME::BodyMunger;
-
-our $VERSION = '0.004';
+# ABSTRACT: rewrite the content of text parts, minding charset
 
 use Carp ();
 use Encode;
 use Variable::Magic ();
-
-=head1 NAME
-
-MIME::BodyMunger - rewrite the content of text parts, minding charset
-
-=head1 VERSION
-
-version 0.004
 
 =head1 SYNOPSIS
 
@@ -35,9 +26,7 @@ instead of worrying about content transfer encoding or character set encoding.
 At present, only MIME::Entity messages can be handled.  Other types will be
 added in the future.
 
-=head1 METHODS
-
-=head2 rewrite_content
+=method rewrite_content
 
   MIME::BodyMunger->rewrite_content($message, sub { ... });
 
@@ -86,7 +75,7 @@ sub rewrite_content {
   }
 }
 
-=head2 rewrite_lines
+=method rewrite_lines
 
   MIME::BodyMunger->rewrite_lines($message, sub { ... });
 
@@ -133,27 +122,12 @@ sub rewrite_lines {
   }
 }
 
-=head1 AUTHOR
-
-Ricardo SIGNES, C<< <rjbs@cpan.org> >>
-
 =head1 THANKS
 
 Thanks to Pobox.com and Listbox.com, who sponsored the development of this
 module.
 
 Thanks to Brian Cassidy for writing some tests for the initial release.
-
-=head1 BUGS
-
-Please report any bugs or feature requests through the web interface at
-L<http://rt.cpan.org>. I will be notified, and then you'll automatically be
-notified of progress on your bug as I make changes.
-
-=head1 COPYRIGHT
-
-Copyright 2008, Ricardo SIGNES.  This program is free software;  you can
-redistribute it and/or modify it under the same terms as Perl itself.
 
 =cut
 
