@@ -2,6 +2,9 @@ Revision history for MIME-BodyMunger
 
 {{$NEXT}}
 
+0.006     2013-09-28 21:54:09 America/New_York
+          update repo and bugtracker links
+
 0.005     2013-06-18 17:41:32 America/New_York
           add a test for non-rewriting of non-text messages
 
